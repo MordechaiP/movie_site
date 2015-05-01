@@ -27,57 +27,57 @@ main_page_head = '''\
 main_page_content = '''
 <body>
 
-	<!-- Main Page Content -->
-	<header id="logo">
-	  <h1>Favorite Movie Trailers</h1>
-	</header>
-	<section id="main">
-		<article>
-			<ul class="movie">
-				{movie_tiles}
-			</ul>
-		</article>
-	</section>
+    <!-- Main Page Content -->
+    <header id="logo">
+        <h1>Favorite Movie Trailers</h1>
+    </header>
+    <section id="main">
+        <article>
+            <ul class="movie">
+                {movie_tiles}
+            </ul>
+        </article>
+    </section>
 
-	<!-- Trailer Video Modal -->
-	<section id="modal">
-		<div id="modal-inner">
-			<header>
-				<button id="modal-close"></button>
-			</header>
-			<div id="video-container"></div>
-		</div>
-	</section>
+    <!-- Trailer Video Modal -->
+    <section id="modal">
+        <div id="modal-inner">
+            <header>
+                <button id="modal-close"></button>
+            </header>
+            <div id="video-container"></div>
+        </div>
+    </section>
 </body>
 </html>
 '''
 
 # A single movie entry html template
 movie_tile_content = '''
-<li data-trailer-youtube-id="{trailer}">
-    <img class="poster" src="{poster}" width="220" height="342">
-    <h2>{movie_title}</h2>
-    <div class="more_info closed">
-    	<button class="more_btn">More Info</button>
-		<button class="less_btn">Less Info</button>
-		<dl>
-			<dt>Year:</dt>
-			<dd>{year}</dd>
-			<dt>Genre:</dt>
-			<dd>{genre}</dd>
-			<dt>Rating:</dt>
-			<dd>{rating}</dd>
-			<dt>Story:</dt>
-			<dd>{story}</dd>
-			<dt>Run Time:</dt>
-			<dd>{runTime}</dd>
-			<dt>Actors:</dt>
-			<dd>{actors}</dd>
-			<dt>IMDB Rating:</dt>
-			<dd>{imdbRating}</dd>
-		</dl>
-    </div>
-</li>
+                <li data-trailer-youtube-id="{trailer}">
+                    <img class="poster" src="{poster}" width="220" height="342">
+                    <h2>{movie_title}</h2>
+                    <div class="more_info closed">
+                        <button class="more_btn">More Info</button>
+                        <button class="less_btn">Less Info</button>
+                        <dl>
+                            <dt>Year:</dt>
+                            <dd>{year}</dd>
+                            <dt>Genre:</dt>
+                            <dd>{genre}</dd>
+                            <dt>Rating:</dt>
+                            <dd>{rating}</dd>
+                            <dt>Story:</dt>
+                            <dd>{story}</dd>
+                            <dt>Run Time:</dt>
+                            <dd>{runTime}</dd>
+                            <dt>Actors:</dt>
+                            <dd>{actors}</dd>
+                            <dt>IMDB Rating:</dt>
+                            <dd>{imdbRating}</dd>
+                        </dl>
+                    </div>
+                </li>
 '''
 
 # Load movies from database and use relevant field to initiate Movie instances. The collection of movies are stored in a list.
@@ -85,8 +85,8 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client["movie_site"]
 movies = []
 for m in db.movies.find():
-	movies.append(media.Movie(title=m['Title'], story=m['Plot'], poster=m['Poster'], trailer=m['Trailer'],year=m['Year'],
-		actors=m['Actors'], genre=m['Genre'], imdbRating=m['imdbRating'], runTime=m['Runtime'], rating=m['Rated']))
+    movies.append(media.Movie(title=m['Title'], story=m['Plot'], poster=m['Poster'], trailer=m['Trailer'],year=m['Year'],
+        actors=m['Actors'], genre=m['Genre'], imdbRating=m['imdbRating'], runTime=m['Runtime'], rating=m['Rated']))
 
 
 
@@ -110,28 +110,28 @@ def create_movie_tiles_content(movies):
             trailer = trailer_youtube_id,
             year = movie.year,
             story = movie.story,
-			actors = movie.actors,
-			genre = movie.genre,
-			rating = movie.rating,
-			imdbRating = movie.imdbRating,
-			runTime = movie.runTime
+            actors = movie.actors,
+            genre = movie.genre,
+            rating = movie.rating,
+            imdbRating = movie.imdbRating,
+            runTime = movie.runTime
         )
     return content
 
 def open_movies_page(movies):
-	# Create or overwrite the output file
-	output_file = open('movie_site.html', 'w')
+    # Create or overwrite the output file
+    output_file = open('movie_site.html', 'w')
 
-	# Replace the placeholder for the movie tiles with the actual dynamically generated content
-	rendered_content = main_page_content.format(movie_tiles=create_movie_tiles_content(movies))
+    # Replace the placeholder for the movie tiles with the actual dynamically generated content
+    rendered_content = main_page_content.format(movie_tiles=create_movie_tiles_content(movies))
 
-	# Output the file
-	output_file.write(main_page_head + rendered_content)
-	output_file.close()
+    # Output the file
+    output_file.write(main_page_head + rendered_content)
+    output_file.close()
 
-	# open the output file in the browser
-	url = os.path.abspath(output_file.name)
-	webbrowser.open('file://' + url, new=2) # open in a new tab, if possible
+    # open the output file in the browser
+    url = os.path.abspath(output_file.name)
+    webbrowser.open('file://' + url, new=2) # open in a new tab, if possible
 
 
 

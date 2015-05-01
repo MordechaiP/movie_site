@@ -15,4 +15,5 @@ class Movie():
 		self.runTime = runTime
 
 	def show_trailer(self):
+		"""Open movie trailer in browser window."""
 		webbrowser.open(self.trailer_url)
