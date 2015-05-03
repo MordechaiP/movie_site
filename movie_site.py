@@ -4,7 +4,9 @@ import re
 
 import media
 
-from pymongo import MongoClient
+import json
+
+
 
 # Styles and scripting for the page
 main_page_head = '''\
@@ -80,15 +82,20 @@ movie_tile_content = '''
                 </li>
 '''
 
+
+def getJSONDocs(fp):
+    decoder = json.JSONDecoder()
+    docList = fp.read().strip()
+    dl_len = len(docList)
+
+    if (dl_len >0):
+        end = 0
+        while end < dl_len:
+            obj, end = decoder.raw_decode(docList, idx=end)
+            end += 1
+            yield obj
+
 # Load movies from database and use relevant field to initiate Movie instances. The collection of movies are stored in a list.
-client = MongoClient('mongodb://localhost:27017/')
-db = client["movie_site"]
-movies = []
-for m in db.movies.find():
-    movies.append(media.Movie(title=m['Title'], story=m['Plot'], poster=m['Poster'], trailer=m['Trailer'],year=m['Year'],
-        actors=m['Actors'], genre=m['Genre'], imdbRating=m['imdbRating'], runTime=m['Runtime'], rating=m['Rated']))
-
-
 
 #
 # Following two functions were taken from fresh_tomates.py with only minor changes
@@ -134,5 +141,10 @@ def open_movies_page(movies):
     webbrowser.open('file://' + url, new=2) # open in a new tab, if possible
 
 
+fp=open("movies.json",'r')
+movies = []
+for m in getJSONDocs(fp):
+    movies.append(media.Movie(title=m['Title'], story=m['Plot'], poster=m['Poster'], trailer=m['Trailer'],year=m['Year'],
+        actors=m['Actors'], genre=m['Genre'], imdbRating=m['imdbRating'], runTime=m['Runtime'], rating=m['Rated']))
 
 open_movies_page(movies)
