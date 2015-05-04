@@ -2,17 +2,17 @@ import webbrowser
 
 class Movie():
 	"""Receptacle for movie information."""
-	def __init__(self, title, story, poster, trailer, year, actors, genre, imdbRating, runTime, rating):
-		self.title = title
-		self.story = story
-		self.poster = poster
-		self.trailer_url = trailer
-		self.year = year
-		self.actors = actors
-		self.genre = genre
-		self.rating = rating
+	def __init__(self, -Title, Story, Poster, Trailer, Year, Actors, Genre, imdbRating, Runtime, Rated):
+		self.title = Title
+		self.story = Story
+		self.poster = Poster
+		self.trailer_url = Trailer
+		self.year = Year
+		self.actors = Actors
+		self.genre = Genre
+		self.rated = Rated
 		self.imdbRating = imdbRating
-		self.runTime = runTime
+		self.runTime = Runtime
 
 	def show_trailer(self):
 		"""Open movie trailer in browser window."""

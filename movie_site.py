@@ -144,7 +144,6 @@ def open_movies_page(movies):
 fp=open("movies.json",'r')
 movies = []
 for m in getJSONDocs(fp):
-    movies.append(media.Movie(title=m['Title'], story=m['Plot'], poster=m['Poster'], trailer=m['Trailer'],year=m['Year'],
-        actors=m['Actors'], genre=m['Genre'], imdbRating=m['imdbRating'], runTime=m['Runtime'], rating=m['Rated']))
+    movies.append(media.Movie(**m))
 
 open_movies_page(movies)
