@@ -19,6 +19,6 @@ A file containing one json object for each desired movie. Object can optionally 
 
 media.py
 
-Provides a Movie class for store various details about a movie. Required fields are: Title, Story, Poster, Trailer, Year, Actors, Genre, imdbRating, Runtime, and Rated.
+Provides a Movie class for store various details about a movie. Required fields are: Title, Plot, Poster, Trailer, Year, Actors, Genre, imdbRating, Runtime, and Rated.
 
 Also provided is show_trailer() method which opens the accocated trailer in a browser.
